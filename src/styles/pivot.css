@@ -674,6 +674,20 @@
 }
 
 @media print {
+  @page {
+    margin-top: 15mm;
+    margin-bottom: 15mm;
+    margin-left: 10mm;
+    margin-right: 10mm;
+    
+    @bottom-right {
+      content: "Pagina " counter(page) " di " counter(pages);
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 8px;
+      color: #64748b;
+    }
+  }
+
   /* Hide all elements except the pivot-container and its ancestors */
   body.pv-body-printing > *:not(.pv-ancestor-printing):not(.pivot-container) {
     display: none !important;
@@ -739,6 +753,8 @@
     height: auto !important;
     min-height: auto !important;
     overflow: visible !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   .pivot-layout {
@@ -755,12 +771,16 @@
     height: auto !important;
     max-height: none !important;
     overflow: visible !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   .pivot-grid-container {
     max-height: none !important;
     overflow: visible !important;
     height: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   /* Print Header Styles */
@@ -809,8 +829,11 @@
     border: 1px solid #cbd5e1 !important;
     color: #0f172a !important;
     background-color: transparent !important;
-    padding: 6px 8px !important;
-    font-size: 11px !important;
+    padding: 4px 6px !important;
+    font-size: 10px !important;
+    white-space: normal !important; /* Allow wrapping of column headers/content on print */
+    word-break: break-word !important;
+    word-wrap: break-word !important;
   }
 
   .pivot-table th {
