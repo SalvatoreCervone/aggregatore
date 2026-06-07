@@ -23,7 +23,11 @@
 
     <!-- Scrollable Grid Container -->
     <div class="pivot-grid-container">
-      <table class="pivot-table" v-if="pivotData && pivotData.rowPaths && pivotData.rowPaths.length > 1">
+      <table 
+        class="pivot-table" 
+        v-if="pivotData && pivotData.rowPaths && pivotData.rowPaths.length > 1"
+        :style="{ width: tableWidth + 'px' }"
+      >
         <colgroup>
           <col :style="{ width: rowHeaderWidth + 'px' }" />
           <col 
@@ -229,8 +233,8 @@ export default {
       };
 
       paths.sort((a, b) => {
-        if (isPrefix(a, b)) return 1;  // parent comes last
-        if (isPrefix(b, a)) return -1; // parent comes last
+        if (isPrefix(a, b)) return -1; // parent comes first
+        if (isPrefix(b, a)) return 1;  // parent comes first
         
         const keyA = a.join('\u0000');
         const keyB = b.join('\u0000');
@@ -284,6 +288,14 @@ export default {
         });
       }
       return list;
+    },
+
+    tableWidth() {
+      const rowHeader = this.rowHeaderWidth;
+      const cols = this.columnsList.reduce((sum, col) => {
+        return sum + (this.colWidths[col.key] || 120);
+      }, 0);
+      return rowHeader + cols;
     },
 
     // Generates the merged HTML table header matrix
@@ -534,8 +546,7 @@ export default {
       
       let initialHeight = this.rowHeights[rowKey];
       if (!initialHeight) {
-        const trKey = 'row-' + rowKey;
-        const trEl = this.$el.querySelector(`tr[key-id="${trKey}"]`);
+        const trEl = event.target.closest('tr');
         initialHeight = trEl ? trEl.offsetHeight : 38;
       }
       this.startSize = initialHeight;

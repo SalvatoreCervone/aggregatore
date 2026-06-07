@@ -362,7 +362,8 @@
 .pivot-table {
   border-collapse: separate;
   border-spacing: 0;
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
   font-size: 0.85rem;
   text-align: left;
   table-layout: fixed; /* Enforce colgroup widths strictly */
