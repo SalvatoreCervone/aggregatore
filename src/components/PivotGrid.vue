@@ -22,7 +22,7 @@
     </div>
 
     <!-- Scrollable Grid Container -->
-    <div class="pivot-grid-container" :style="{ maxHeight: height }">
+    <div class="pivot-grid-container">
       <table class="pivot-table" v-if="pivotData && pivotData.rowPaths && pivotData.rowPaths.length > 1">
         <thead>
           <!-- Render calculated header rows -->

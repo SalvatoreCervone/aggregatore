@@ -198,7 +198,8 @@ Per integrare il componente all'interno di applicazioni più complesse, puoi abi
 | `data` | `Array` | `[]` | Dataset grezzo (utilizzato se `report` non è fornito). |
 | `initialConfig` | `Object` | `{ rows: [], columns: [], values: [] }` | Campi righe, colonne e valori iniziali (utilizzato se `report` non è fornito). |
 | `title` | `String` | `'Analisi Dati'` | Titolo visualizzato nella barra superiore del componente. |
-| `height` | `String` | `'550px'` | Altezza fissa del contenitore della griglia (supporta `px`, `vh`, `calc()`). |
+| `height` | `String` | `'550px'` | Altezza fissa del contenitore della griglia e del configuratore (supporta `px`, `vh`, `calc()`). |
+| `width` | `String` | `'100%'` | Larghezza complessiva del contenitore principale (supporta `px`, `%`, `vw`, `calc()`). |
 | `defaultTheme` | `String` | `'light'` | Tema iniziale del componente (`'dark'` o `'light'`). |
 | `allowImport` | `Boolean` | `false` | Se abilitato (`true`), mostra i pulsanti e l'area di drag-and-drop per importare file Excel e CSV localmente. |
 | `allowThemeToggle` | `Boolean` | `false` | Se abilitato (`true`), mostra il pulsante nella barra degli strumenti per passare dal tema chiaro a scuro e viceversa. |

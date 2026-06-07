@@ -1,5 +1,5 @@
 <template>
-  <div :class="['pivot-container', { 'pv-light': theme === 'light' }]">
+  <div class="pivot-container" :class="{ 'pv-light': theme === 'light' }" :style="{ width: width, height: height }">
     <!-- Toolbar -->
     <div class="pivot-toolbar">
       <div class="pivot-title">
@@ -223,6 +223,10 @@ export default {
     allowExport: {
       type: Boolean,
       default: false
+    },
+    width: {
+      type: String,
+      default: '100%'
     }
   },
   emits: ['change', 'export'],
@@ -254,7 +258,7 @@ export default {
     },
     layoutStyle() {
       return {
-        gridTemplateColumns: this.showBuilder ? '320px 1fr' : '1fr'
+        gridTemplateColumns: this.showBuilder ? 'auto 1fr' : '1fr'
       };
     },
     currentPrintDate() {
