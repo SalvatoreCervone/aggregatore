@@ -24,6 +24,14 @@
     <!-- Scrollable Grid Container -->
     <div class="pivot-grid-container">
       <table class="pivot-table" v-if="pivotData && pivotData.rowPaths && pivotData.rowPaths.length > 1">
+        <colgroup>
+          <col :style="{ width: rowHeaderWidth + 'px' }" />
+          <col 
+            v-for="col in columnsList" 
+            :key="col.key" 
+            :style="{ width: (colWidths[col.key] || 120) + 'px' }" 
+          />
+        </colgroup>
         <thead>
           <!-- Render calculated header rows -->
           <tr 
@@ -41,6 +49,7 @@
               :rowspan="headerRows.length"
             >
               {{ pivotData.rowsConfig.join(' ➔ ') || 'Righe' }}
+              <div class="col-resizer" @mousedown.stop.prevent="startColResize($event, 'row-header')"></div>
             </th>
 
             <!-- Column Header Cells -->
@@ -56,6 +65,11 @@
                 }"
               >
                 {{ cell.text }}
+                <div 
+                  v-if="rIdx === headerRows.length - 1 && columnsList[cIdx]" 
+                  class="col-resizer" 
+                  @mousedown.stop.prevent="startColResize($event, columnsList[cIdx].key)"
+                ></div>
               </th>
             </template>
           </tr>
@@ -66,10 +80,12 @@
           <tr 
             v-for="rowPath in visibleRowPaths" 
             :key="'row-' + getPathKey(rowPath)"
+            :key-id="'row-' + getPathKey(rowPath)"
             :class="{ 
               'row-total': isPathSubtotal(rowPath, pivotData.rowsConfig),
               'row-grand-total': rowPath.length === 0
             }"
+            :style="{ height: rowHeights[getPathKey(rowPath)] ? rowHeights[getPathKey(rowPath)] + 'px' : 'auto' }"
           >
             <!-- Row Header Column -->
             <td 
@@ -89,6 +105,7 @@
                 
                 <span>{{ getRowLabel(rowPath) }}</span>
               </div>
+              <div class="row-resizer" @mousedown.stop.prevent="startRowResize($event, rowPath)"></div>
             </td>
 
             <!-- Value Cells -->
@@ -172,8 +189,24 @@ export default {
     return {
       searchQuery: '',
       collapsedRows: new Set(),
-      drillDownCell: null
+      drillDownCell: null,
+      
+      // Resizing state
+      rowHeaderWidth: 200,
+      colWidths: {}, // key -> width in px
+      rowHeights: {}, // key -> height in px
+      
+      // Active drag state
+      activeResizeType: null, // 'col' or 'row'
+      activeResizeKey: null, // key of the column or row path
+      startX: 0,
+      startY: 0,
+      startSize: 0
     };
+  },
+  beforeUnmount() {
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
   },
   computed: {
     totalRowsCount() {
@@ -478,6 +511,69 @@ export default {
 
     closeDrillDown() {
       this.drillDownCell = null;
+    },
+
+    startColResize(event, colKey) {
+      this.activeResizeType = 'col';
+      this.activeResizeKey = colKey;
+      this.startX = event.clientX;
+      this.startSize = colKey === 'row-header' 
+        ? this.rowHeaderWidth 
+        : (this.colWidths[colKey] || 120);
+      
+      document.addEventListener('mousemove', this.onMouseMove);
+      document.addEventListener('mouseup', this.onMouseUp);
+      document.body.classList.add('resizing-col');
+    },
+
+    startRowResize(event, rowPath) {
+      this.activeResizeType = 'row';
+      const rowKey = this.getPathKey(rowPath);
+      this.activeResizeKey = rowKey;
+      this.startY = event.clientY;
+      
+      let initialHeight = this.rowHeights[rowKey];
+      if (!initialHeight) {
+        const trKey = 'row-' + rowKey;
+        const trEl = this.$el.querySelector(`tr[key-id="${trKey}"]`);
+        initialHeight = trEl ? trEl.offsetHeight : 38;
+      }
+      this.startSize = initialHeight;
+      
+      document.addEventListener('mousemove', this.onMouseMove);
+      document.addEventListener('mouseup', this.onMouseUp);
+      document.body.classList.add('resizing-row');
+    },
+
+    onMouseMove(event) {
+      if (this.activeResizeType === 'col') {
+        const diffX = event.clientX - this.startX;
+        const newSize = Math.max(50, this.startSize + diffX);
+        if (this.activeResizeKey === 'row-header') {
+          this.rowHeaderWidth = newSize;
+        } else {
+          this.colWidths = {
+            ...this.colWidths,
+            [this.activeResizeKey]: newSize
+          };
+        }
+      } else if (this.activeResizeType === 'row') {
+        const diffY = event.clientY - this.startY;
+        const newSize = Math.max(25, this.startSize + diffY);
+        this.rowHeights = {
+          ...this.rowHeights,
+          [this.activeResizeKey]: newSize
+        };
+      }
+    },
+
+    onMouseUp() {
+      document.removeEventListener('mousemove', this.onMouseMove);
+      document.removeEventListener('mouseup', this.onMouseUp);
+      document.body.classList.remove('resizing-col');
+      document.body.classList.remove('resizing-row');
+      this.activeResizeType = null;
+      this.activeResizeKey = null;
     }
   }
 };

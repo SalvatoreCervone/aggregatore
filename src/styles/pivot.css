@@ -365,6 +365,7 @@
   width: 100%;
   font-size: 0.85rem;
   text-align: left;
+  table-layout: fixed; /* Enforce colgroup widths strictly */
 }
 
 /* Sticky Headers rules */
@@ -374,6 +375,53 @@
   border-right: 1px solid var(--pv-border);
   border-bottom: 1px solid var(--pv-border);
   white-space: nowrap;
+  position: relative; /* Enable absolute positioning for resizers */
+}
+
+/* Table Resizers */
+.col-resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: col-resize;
+  z-index: 40; /* Sit above sticky cells */
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.col-resizer:hover,
+.col-resizer.resizing {
+  background-color: var(--pv-accent);
+  opacity: 0.8;
+}
+
+.row-resizer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 6px;
+  cursor: row-resize;
+  z-index: 40;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.row-resizer:hover,
+.row-resizer.resizing {
+  background-color: var(--pv-accent);
+  opacity: 0.8;
+}
+
+body.resizing-col, body.resizing-col * {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+body.resizing-row, body.resizing-row * {
+  cursor: row-resize !important;
+  user-select: none !important;
 }
 
 .pivot-table th {
