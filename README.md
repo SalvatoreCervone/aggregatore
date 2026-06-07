@@ -18,6 +18,7 @@ Permette agli utenti di esplorare, aggregare e analizzare dataset complessi dire
 * 🖨️ **Stampa PDF / Cartacea**: Configurazione guidata per la stampa del report, con la possibilità di impostare titolo e sottotitolo. Il sistema **isola automaticamente il componente** nascondendo tutto il resto della pagina host per stampare esclusivamente la tabella pivot.
 * 📂 **Importazione Excel/CSV**: Pulsante integrato nella barra degli strumenti per caricare direttamente file Excel (`.xlsx`, `.xls`) o file `.csv`, convertendoli all'istante nel dataset attivo del componente.
 * ⚙️ **Configuratore JSON (`report`)**: Carica al volo dati e layout con una singola prop JSON, supportando sia formati semplificati che formati strutturati complessi.
+* ↕️ **Ridimensionamento Dinamico (Resizing)**: Interfaccia flessibile che consente di regolare manualmente l'altezza e la larghezza complessiva del componente, la larghezza della colonna campi e l'altezza delle singole sezioni interne (Campi disponibili e zone di rilascio) mediante ancore di trascinamento grafiche e con persistenza del layout durante le interazioni.
 
 ---
 
