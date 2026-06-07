@@ -15,6 +15,7 @@ Permette agli utenti di esplorare, aggregare e analizzare dataset complessi dire
 * 🔍 **Filtro di Ricerca**: Ricerca testuale istantanea per filtrare le righe.
 * 🔎 **Drill-Down Dati**: Doppio clic su qualsiasi cella numerica per aprire una modale contenente l'elenco dei singoli record di origine associati a quella cella.
 * 💾 **Esportazione**: Funzionalità integrate per esportare la griglia pivot elaborata in file nativi **Excel (.xlsx)**, **CSV** (formattato e ottimizzato per Microsoft Excel con BOM) e **JSON**.
+* 🖨️ **Stampa PDF / Cartacea**: Configurazione guidata per la stampa del report, con la possibilità di definire un titolo, un sottotitolo personalizzato e una formattazione CSS ottimizzata per la pagina stampata.
 * 📂 **Importazione Excel/CSV**: Pulsante integrato nella barra degli strumenti per caricare direttamente file Excel (`.xlsx`, `.xls`) o file `.csv`, convertendoli all'istante nel dataset attivo del componente.
 * ⚙️ **Configuratore JSON (`report`)**: Carica al volo dati e layout con una singola prop JSON, supportando sia formati semplificati che formati strutturati complessi.
 
