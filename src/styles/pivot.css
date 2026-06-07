@@ -170,6 +170,7 @@
   display: flex;
   flex-flow: row wrap;
   gap: 8px;
+  height: 180px; /* Base initial height for resizer to work */
   min-height: 80px;
   max-height: 350px;
   resize: vertical;
@@ -188,6 +189,7 @@
   border: 1px solid var(--pv-border);
   border-radius: 8px;
   padding: 12px;
+  height: 80px; /* Base initial height for resizer to work */
   min-height: 50px;
   max-height: 250px;
   resize: vertical;

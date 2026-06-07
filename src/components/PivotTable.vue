@@ -1,5 +1,5 @@
 <template>
-  <div class="pivot-container" :class="{ 'pv-light': theme === 'light' }" :style="{ width: width, height: height }">
+  <div class="pivot-container" :class="{ 'pv-light': theme === 'light' }" :style="{ width: currentWidth, height: currentHeight }">
     <!-- Toolbar -->
     <div class="pivot-toolbar">
       <div class="pivot-title">
@@ -242,7 +242,9 @@ export default {
       showPrintModal: false,
       printTitle: 'Report Aggregatore Pivot',
       printSubtitle: '',
-      theme: this.defaultTheme
+      theme: this.defaultTheme,
+      currentWidth: this.width,
+      currentHeight: this.height
     };
   },
   computed: {
@@ -269,6 +271,12 @@ export default {
     }
   },
   watch: {
+    width(newVal) {
+      this.currentWidth = newVal;
+    },
+    height(newVal) {
+      this.currentHeight = newVal;
+    },
     report: {
       handler() {
         this.loadReportConfig();
@@ -298,9 +306,22 @@ export default {
   mounted() {
     // Close export dropdown if clicked outside
     document.addEventListener('click', this.handleOutsideClick);
+    
+    // Setup ResizeObserver to track manual resizes of the container
+    this.resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { width, height } = entry.target.style;
+        if (width) this.currentWidth = width;
+        if (height) this.currentHeight = height;
+      }
+    });
+    this.resizeObserver.observe(this.$el);
   },
   beforeUnmount() {
     document.removeEventListener('click', this.handleOutsideClick);
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
   },
   methods: {
     loadReportConfig() {
