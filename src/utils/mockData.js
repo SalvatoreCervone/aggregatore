@@ -1,30 +1,30 @@
 // Mock data generator for the Pivot table demo
 
 export const salesData = [
-  { Region: 'Nord', Categoria: 'Elettronica', Prodotto: 'Smart TV', Anno: 2024, Trimestre: 'Q1', Fatturato: 12500, Quantità: 25 },
-  { Region: 'Nord', Categoria: 'Elettronica', Prodotto: 'Smart TV', Anno: 2024, Trimestre: 'Q2', Fatturato: 15000, Quantità: 30 },
-  { Region: 'Nord', Categoria: 'Elettronica', Prodotto: 'Smartphone', Anno: 2024, Trimestre: 'Q1', Fatturato: 28000, Quantità: 40 },
-  { Region: 'Nord', Categoria: 'Elettronica', Prodotto: 'Smartphone', Anno: 2025, Trimestre: 'Q1', Fatturato: 32000, Quantità: 45 },
-  { Region: 'Nord', Categoria: 'Abbigliamento', Prodotto: 'Giacche', Anno: 2024, Trimestre: 'Q1', Fatturato: 8500, Quantità: 85 },
-  { Region: 'Nord', Categoria: 'Abbigliamento', Prodotto: 'Giacche', Anno: 2024, Trimestre: 'Q2', Fatturato: 4500, Quantità: 45 },
-  { Region: 'Nord', Categoria: 'Abbigliamento', Prodotto: 'Scarpe', Anno: 2024, Trimestre: 'Q2', Fatturato: 12000, Quantità: 120 },
-  { Region: 'Nord', Categoria: 'Abbigliamento', Prodotto: 'Scarpe', Anno: 2025, Trimestre: 'Q1', Fatturato: 14500, Quantità: 140 },
+  { Regione: 'Nord', Categoria: 'Elettronica', Prodotto: 'Smart TV', Anno: 2024, Trimestre: 'Q1', Fatturato: 12500, Quantità: 25 },
+  { Regione: 'Nord', Categoria: 'Elettronica', Prodotto: 'Smart TV', Anno: 2024, Trimestre: 'Q2', Fatturato: 15000, Quantità: 30 },
+  { Regione: 'Nord', Categoria: 'Elettronica', Prodotto: 'Smartphone', Anno: 2024, Trimestre: 'Q1', Fatturato: 28000, Quantità: 40 },
+  { Regione: 'Nord', Categoria: 'Elettronica', Prodotto: 'Smartphone', Anno: 2025, Trimestre: 'Q1', Fatturato: 32000, Quantità: 45 },
+  { Regione: 'Nord', Categoria: 'Abbigliamento', Prodotto: 'Giacche', Anno: 2024, Trimestre: 'Q1', Fatturato: 8500, Quantità: 85 },
+  { Regione: 'Nord', Categoria: 'Abbigliamento', Prodotto: 'Giacche', Anno: 2024, Trimestre: 'Q2', Fatturato: 4500, Quantità: 45 },
+  { Regione: 'Nord', Categoria: 'Abbigliamento', Prodotto: 'Scarpe', Anno: 2024, Trimestre: 'Q2', Fatturato: 12000, Quantità: 120 },
+  { Regione: 'Nord', Categoria: 'Abbigliamento', Prodotto: 'Scarpe', Anno: 2025, Trimestre: 'Q1', Fatturato: 14500, Quantità: 140 },
 
-  { Region: 'Centro', Categoria: 'Elettronica', Prodotto: 'Smart TV', Anno: 2024, Trimestre: 'Q1', Fatturato: 9800, Quantità: 18 },
-  { Region: 'Centro', Categoria: 'Elettronica', Prodotto: 'Smart TV', Anno: 2024, Trimestre: 'Q2', Fatturato: 11000, Quantità: 22 },
-  { Region: 'Centro', Categoria: 'Elettronica', Prodotto: 'Smartphone', Anno: 2024, Trimestre: 'Q1', Fatturato: 22000, Quantità: 31 },
-  { Region: 'Centro', Categoria: 'Elettronica', Prodotto: 'Smartphone', Anno: 2025, Trimestre: 'Q1', Fatturato: 25000, Quantità: 35 },
-  { Region: 'Centro', Categoria: 'Abbigliamento', Prodotto: 'Giacche', Anno: 2024, Trimestre: 'Q1', Fatturato: 6200, Quantità: 60 },
-  { Region: 'Centro', Categoria: 'Abbigliamento', Prodotto: 'Scarpe', Anno: 2024, Trimestre: 'Q2', Fatturato: 9500, Quantità: 90 },
-  { Region: 'Centro', Categoria: 'Abbigliamento', Prodotto: 'Scarpe', Anno: 2025, Trimestre: 'Q1', Fatturato: 11000, Quantità: 105 },
+  { Regione: 'Centro', Categoria: 'Elettronica', Prodotto: 'Smart TV', Anno: 2024, Trimestre: 'Q1', Fatturato: 9800, Quantità: 18 },
+  { Regione: 'Centro', Categoria: 'Elettronica', Prodotto: 'Smart TV', Anno: 2024, Trimestre: 'Q2', Fatturato: 11000, Quantità: 22 },
+  { Regione: 'Centro', Categoria: 'Elettronica', Prodotto: 'Smartphone', Anno: 2024, Trimestre: 'Q1', Fatturato: 22000, Quantità: 31 },
+  { Regione: 'Centro', Categoria: 'Elettronica', Prodotto: 'Smartphone', Anno: 2025, Trimestre: 'Q1', Fatturato: 25000, Quantità: 35 },
+  { Regione: 'Centro', Categoria: 'Abbigliamento', Prodotto: 'Giacche', Anno: 2024, Trimestre: 'Q1', Fatturato: 6200, Quantità: 60 },
+  { Regione: 'Centro', Categoria: 'Abbigliamento', Prodotto: 'Scarpe', Anno: 2024, Trimestre: 'Q2', Fatturato: 9500, Quantità: 90 },
+  { Regione: 'Centro', Categoria: 'Abbigliamento', Prodotto: 'Scarpe', Anno: 2025, Trimestre: 'Q1', Fatturato: 11000, Quantità: 105 },
 
-  { Region: 'Sud', Categoria: 'Elettronica', Prodotto: 'Smart TV', Anno: 2024, Trimestre: 'Q1', Fatturato: 7500, Quantità: 15 },
-  { Region: 'Sud', Categoria: 'Elettronica', Prodotto: 'Smart TV', Anno: 2024, Trimestre: 'Q2', Fatturato: 8500, Quantità: 17 },
-  { Region: 'Sud', Categoria: 'Elettronica', Prodotto: 'Smartphone', Anno: 2024, Trimestre: 'Q1', Fatturato: 18000, Quantità: 25 },
-  { Region: 'Sud', Categoria: 'Elettronica', Prodotto: 'Smartphone', Anno: 2025, Trimestre: 'Q1', Fatturato: 21000, Quantità: 30 },
-  { Region: 'Sud', Categoria: 'Abbigliamento', Prodotto: 'Giacche', Anno: 2024, Trimestre: 'Q1', Fatturato: 4500, Quantità: 45 },
-  { Region: 'Sud', Categoria: 'Abbigliamento', Prodotto: 'Scarpe', Anno: 2024, Trimestre: 'Q2', Fatturato: 7800, Quantità: 80 },
-  { Region: 'Sud', Categoria: 'Abbigliamento', Prodotto: 'Scarpe', Anno: 2025, Trimestre: 'Q1', Fatturato: 9200, Quantità: 95 }
+  { Regione: 'Sud', Categoria: 'Elettronica', Prodotto: 'Smart TV', Anno: 2024, Trimestre: 'Q1', Fatturato: 7500, Quantità: 15 },
+  { Regione: 'Sud', Categoria: 'Elettronica', Prodotto: 'Smart TV', Anno: 2024, Trimestre: 'Q2', Fatturato: 8500, Quantità: 17 },
+  { Regione: 'Sud', Categoria: 'Elettronica', Prodotto: 'Smartphone', Anno: 2024, Trimestre: 'Q1', Fatturato: 18000, Quantità: 25 },
+  { Regione: 'Sud', Categoria: 'Elettronica', Prodotto: 'Smartphone', Anno: 2025, Trimestre: 'Q1', Fatturato: 21000, Quantità: 30 },
+  { Regione: 'Sud', Categoria: 'Abbigliamento', Prodotto: 'Giacche', Anno: 2024, Trimestre: 'Q1', Fatturato: 4500, Quantità: 45 },
+  { Regione: 'Sud', Categoria: 'Abbigliamento', Prodotto: 'Scarpe', Anno: 2024, Trimestre: 'Q2', Fatturato: 7800, Quantità: 80 },
+  { Regione: 'Sud', Categoria: 'Abbigliamento', Prodotto: 'Scarpe', Anno: 2025, Trimestre: 'Q1', Fatturato: 9200, Quantità: 95 }
 ];
 
 export const studentData = [
