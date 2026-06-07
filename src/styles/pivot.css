@@ -664,6 +664,67 @@
   font-family: var(--pv-font-mono);
 }
 
+/* Sort Chip specific styles */
+.field-chip.sort-chip {
+  background-color: var(--pv-bg-card);
+  border-color: var(--pv-border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sort-actions-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.sort-btn-pill {
+  font-family: var(--pv-font-sans);
+  background-color: var(--pv-bg-main);
+  color: var(--pv-text);
+  border: 1px solid var(--pv-border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sort-btn-pill:hover {
+  border-color: var(--pv-accent);
+  background-color: var(--pv-accent-glow);
+  color: var(--pv-accent);
+}
+
+.sort-priority-btn {
+  font-family: var(--pv-font-sans);
+  border: none;
+  background: transparent;
+  color: var(--pv-text-muted);
+  cursor: pointer;
+  padding: 2px 4px;
+  font-size: 0.7rem;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sort-priority-btn:not(:disabled):hover {
+  color: var(--pv-accent);
+  transform: scale(1.15);
+}
+
+.sort-priority-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 /* ==========================================================================
    STAMPA (Print Styles)
    ========================================================================== */

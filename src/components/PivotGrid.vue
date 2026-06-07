@@ -188,25 +188,22 @@ export default {
       if (!this.pivotData || !this.pivotData.rowPaths) return [];
       
       const paths = this.pivotData.rowPaths.filter(p => p.length > 0);
+      const originalKeys = this.pivotData.rowPaths.map(p => p.join('\u0000'));
       
-      // Sort hierarchically: children come before their subtotal parent
+      const isPrefix = (prefix, path) => {
+        if (prefix.length >= path.length) return false;
+        return prefix.every((val, i) => val === path[i]);
+      };
+
       paths.sort((a, b) => {
-        const minLen = Math.min(a.length, b.length);
-        for (let i = 0; i < minLen; i++) {
-          if (a[i] !== b[i]) {
-            const numA = Number(a[i]);
-            const numB = Number(b[i]);
-            if (!isNaN(numA) && !isNaN(numB)) {
-              return numA - numB;
-            }
-            return a[i].localeCompare(b[i]);
-          }
-        }
-        // Shorter path (subtotal parent) comes last
-        return b.length - a.length;
+        if (isPrefix(a, b)) return 1;  // parent comes last
+        if (isPrefix(b, a)) return -1; // parent comes last
+        
+        const keyA = a.join('\u0000');
+        const keyB = b.join('\u0000');
+        return originalKeys.indexOf(keyA) - originalKeys.indexOf(keyB);
       });
       
-      // Put Grand Total [] at the very end
       paths.push([]);
       return paths;
     },
@@ -216,21 +213,20 @@ export default {
       if (!this.pivotData || !this.pivotData.colPaths) return [];
       
       const paths = this.pivotData.colPaths.filter(p => p.length > 0);
+      const originalKeys = this.pivotData.colPaths.map(p => p.join('\u0000'));
       
+      const isPrefix = (prefix, path) => {
+        if (prefix.length >= path.length) return false;
+        return prefix.every((val, i) => val === path[i]);
+      };
+
       paths.sort((a, b) => {
-        const minLen = Math.min(a.length, b.length);
-        for (let i = 0; i < minLen; i++) {
-          if (a[i] !== b[i]) {
-            const numA = Number(a[i]);
-            const numB = Number(b[i]);
-            if (!isNaN(numA) && !isNaN(numB)) {
-              return numA - numB;
-            }
-            return a[i].localeCompare(b[i]);
-          }
-        }
-        // Shorter path (subtotal parent) comes last
-        return b.length - a.length;
+        if (isPrefix(a, b)) return 1;  // parent comes last
+        if (isPrefix(b, a)) return -1; // parent comes last
+        
+        const keyA = a.join('\u0000');
+        const keyB = b.join('\u0000');
+        return originalKeys.indexOf(keyA) - originalKeys.indexOf(keyB);
       });
       
       paths.push([]);

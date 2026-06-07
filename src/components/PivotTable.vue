@@ -91,6 +91,7 @@
         v-model:rows="rows"
         v-model:columns="columns"
         v-model:values="values"
+        v-model:sorts="sorts"
         :data="internalData"
       />
 
@@ -244,17 +245,22 @@ export default {
       printSubtitle: '',
       theme: this.defaultTheme,
       currentWidth: this.width,
-      currentHeight: this.height
+      currentHeight: this.height,
+      sorts: {
+        rows: [],
+        columns: []
+      }
     };
   },
   computed: {
     pivotData() {
-      const data = computePivot(this.internalData, this.rows, this.columns, this.values);
+      const data = computePivot(this.internalData, this.rows, this.columns, this.values, this.sorts);
       // Emit config changes to parent application
       this.$emit('change', {
         rows: this.rows,
         columns: this.columns,
-        values: this.values
+        values: this.values,
+        sorts: this.sorts
       });
       return data;
     },
@@ -332,14 +338,22 @@ export default {
           this.rows = parsed.rows || [];
           this.columns = parsed.columns || [];
           this.values = parsed.values || [];
+          this.sorts = parsed.sorts || {};
           return;
         }
       }
       // Fallback
       this.internalData = this.data || [];
-      this.rows = [...(this.initialConfig?.rows || [])];
-      this.columns = [...(this.initialConfig?.columns || [])];
-      this.values = JSON.parse(JSON.stringify(this.initialConfig?.values || []));
+      const parsedConfig = parseReportConfig({
+        rows: this.initialConfig?.rows || [],
+        columns: this.initialConfig?.columns || [],
+        values: this.initialConfig?.values || [],
+        sorts: this.initialConfig?.sorts || {}
+      });
+      this.rows = parsedConfig.rows;
+      this.columns = parsedConfig.columns;
+      this.values = parsedConfig.values;
+      this.sorts = parsedConfig.sorts;
     },
     toggleTheme() {
       this.theme = this.theme === 'dark' ? 'light' : 'dark';
