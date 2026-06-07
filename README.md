@@ -93,6 +93,33 @@ export default {
 </script>
 ```
 
+### 3. Uso con soli Dati (Senza configurazione iniziale)
+È possibile passare anche solo l'array di dati grezzi. In questo caso, le colonne, le righe e le misure aggregate partiranno vuote e il configuratore sul pannello sinistro permetterà all'utente di impostarle in qualsiasi momento. I campi disponibili vengono estratti automaticamente dal dataset:
+
+```html
+<template>
+  <PivotTable :data="dataset" title="Esplorazione Dati Libera" />
+</template>
+
+<script>
+import { PivotTable } from 'vue-aggregatore';
+import 'vue-aggregatore/style.css';
+
+export default {
+  components: { PivotTable },
+  data() {
+    return {
+      dataset: [
+        { Prodotto: 'A', Mese: 'Gennaio', Vendite: 100 },
+        { Prodotto: 'B', Mese: 'Gennaio', Vendite: 150 },
+        { Prodotto: 'A', Mese: 'Febbraio', Vendite: 200 }
+      ]
+    };
+  }
+};
+</script>
+```
+
 ---
 
 ## ⚙️ Uso Avanzato: Configurazione JSON Singola (`report`)
