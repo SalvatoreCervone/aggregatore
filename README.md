@@ -15,7 +15,7 @@ Permette agli utenti di esplorare, aggregare e analizzare dataset complessi dire
 * 🔍 **Filtro di Ricerca**: Ricerca testuale istantanea per filtrare le righe.
 * 🔎 **Drill-Down Dati**: Doppio clic su qualsiasi cella numerica per aprire una modale contenente l'elenco dei singoli record di origine associati a quella cella.
 * 💾 **Esportazione**: Funzionalità integrate per esportare la griglia pivot elaborata in file nativi **Excel (.xlsx)**, **CSV** (formattato e ottimizzato per Microsoft Excel con BOM) e **JSON**.
-* 🖨️ **Stampa PDF / Cartacea**: Configurazione guidata per la stampa del report, con la possibilità di definire un titolo, un sottotitolo personalizzato e una formattazione CSS ottimizzata per la pagina stampata.
+* 🖨️ **Stampa PDF / Cartacea**: Configurazione guidata per la stampa del report, con la possibilità di impostare titolo e sottotitolo. Il sistema **isola automaticamente il componente** nascondendo tutto il resto della pagina host per stampare esclusivamente la tabella pivot.
 * 📂 **Importazione Excel/CSV**: Pulsante integrato nella barra degli strumenti per caricare direttamente file Excel (`.xlsx`, `.xls`) o file `.csv`, convertendoli all'istante nel dataset attivo del componente.
 * ⚙️ **Configuratore JSON (`report`)**: Carica al volo dati e layout con una singola prop JSON, supportando sia formati semplificati che formati strutturati complessi.
 
@@ -171,6 +171,23 @@ export default {
 
 ---
 
+### 4. Configurazione di Permessi e Opzioni (Props)
+Per integrare il componente all'interno di applicazioni più complesse, puoi abilitare o disabilitare specifiche funzionalità della barra degli strumenti (come l'importazione, l'esportazione o la scelta del tema) semplicemente passando le relative props booleane. Di default queste opzioni sono disabilitate per una maggiore sicurezza e controllo:
+
+```html
+<template>
+  <PivotTable 
+    :data="dataset"
+    :allow-import="true"         <!-- Abilita l'importazione locale di file Excel/CSV -->
+    :allow-export="true"         <!-- Abilita il menu Esporta (Excel, CSV, JSON) e la stampa -->
+    :allow-theme-toggle="true"   <!-- Abilita il cambio tema chiaro/scuro in barra strumenti -->
+    default-theme="light"        <!-- Imposta il tema iniziale ('light' o 'dark') -->
+  />
+</template>
+```
+
+---
+
 ## 📖 Riferimento API
 
 ### Props
@@ -182,7 +199,10 @@ export default {
 | `initialConfig` | `Object` | `{ rows: [], columns: [], values: [] }` | Campi righe, colonne e valori iniziali (utilizzato se `report` non è fornito). |
 | `title` | `String` | `'Analisi Dati'` | Titolo visualizzato nella barra superiore del componente. |
 | `height` | `String` | `'550px'` | Altezza fissa del contenitore della griglia (supporta `px`, `vh`, `calc()`). |
-| `defaultTheme` | `String` | `'dark'` | Tema iniziale del componente (`'dark'` o `'light'`). |
+| `defaultTheme` | `String` | `'light'` | Tema iniziale del componente (`'dark'` o `'light'`). |
+| `allowImport` | `Boolean` | `false` | Se abilitato (`true`), mostra i pulsanti e l'area di drag-and-drop per importare file Excel e CSV localmente. |
+| `allowThemeToggle` | `Boolean` | `false` | Se abilitato (`true`), mostra il pulsante nella barra degli strumenti per passare dal tema chiaro a scuro e viceversa. |
+| `allowExport` | `Boolean` | `false` | Se abilitato (`true`), mostra il menu a tendina nella barra degli strumenti per esportare i dati in Excel, CSV, JSON o per stampare il report. |
 
 ### Eventi Emessi (`emits`)
 

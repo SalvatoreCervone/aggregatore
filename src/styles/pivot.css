@@ -158,6 +158,8 @@
   flex-flow: row wrap;
   gap: 8px;
   min-height: 80px;
+  max-height: 180px;
+  overflow-y: auto;
 }
 
 /* Drop zones */
@@ -633,6 +635,25 @@
 }
 
 @media print {
+  /* Hide all elements except the pivot-container and its ancestors */
+  body.pv-body-printing > *:not(.pv-ancestor-printing):not(.pivot-container) {
+    display: none !important;
+  }
+  body.pv-body-printing .pv-ancestor-printing > *:not(.pv-ancestor-printing):not(.pivot-container) {
+    display: none !important;
+  }
+  body.pv-body-printing .pv-ancestor-printing {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
   /* Hide interface elements */
   header,
   .app-header,

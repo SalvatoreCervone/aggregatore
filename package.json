@@ -9,7 +9,7 @@
       "import": "./dist/vue-pivot-table.es.js",
       "require": "./dist/vue-pivot-table.umd.js"
     },
-    "./style.css": "./dist/style.css"
+    "./style.css": "./dist/vue-aggregatore.css"
   },
   "files": [
     "dist"

@@ -19,6 +19,7 @@
 
         <!-- Import Excel/CSV Button -->
         <button 
+          v-if="allowImport"
           @click="$refs.excelInput.click()" 
           class="pivot-btn pivot-btn-secondary"
           title="Importa file Excel (.xlsx, .xls) o CSV"
@@ -26,6 +27,7 @@
           <span>📂 Importa Excel</span>
         </button>
         <input 
+          v-if="allowImport"
           type="file" 
           ref="excelInput" 
           accept=".xlsx, .xls, .csv" 
@@ -34,7 +36,7 @@
         />
 
         <!-- Export Dropdown -->
-        <div style="position: relative; display: inline-block;">
+        <div v-if="allowExport" style="position: relative; display: inline-block;">
           <button @click="showExportMenu = !showExportMenu" class="pivot-btn">
             <span>💾 Esporta</span>
             <span style="font-size: 0.7rem;">▼</span>
@@ -63,6 +65,7 @@
 
         <!-- Theme Toggle -->
         <button 
+          v-if="allowThemeToggle"
           @click="toggleTheme" 
           class="pivot-btn pivot-btn-secondary" 
           style="padding: 8px 12px;"
@@ -103,21 +106,22 @@
     <div 
       v-else 
       class="pivot-empty-state" 
-      :class="{ dragover: isDragOver }"
-      @dragover.prevent="isDragOver = true"
+      :class="{ dragover: allowImport && isDragOver }"
+      @dragover.prevent="allowImport ? (isDragOver = true) : null"
       @dragleave.prevent="isDragOver = false"
-      @drop.prevent="handleFileDrop"
+      @drop.prevent="allowImport ? handleFileDrop($event) : null"
     >
       <div class="pivot-empty-card">
-        <div class="pivot-empty-icon">📂</div>
-        <h3>Carica i tuoi Dati</h3>
-        <p>Trascina un file Excel (.xlsx, .xls) o CSV qui, oppure selezionalo dal computer per iniziare l'analisi pivot.</p>
+        <div class="pivot-empty-icon">{{ allowImport ? '📂' : '📊' }}</div>
+        <h3>{{ allowImport ? 'Carica i tuoi Dati' : 'Nessun Dato Disponibile' }}</h3>
+        <p v-if="allowImport">Trascina un file Excel (.xlsx, .xls) o CSV qui, oppure selezionalo dal computer per iniziare l'analisi pivot.</p>
+        <p v-else>Non sono stati forniti dati per l'analisi pivot.</p>
         
-        <button class="pivot-btn" @click="$refs.excelInput.click()">
+        <button v-if="allowImport" class="pivot-btn" @click="$refs.excelInput.click()">
           Scegli un file Excel/CSV
         </button>
         
-        <div class="pivot-empty-formats">
+        <div v-if="allowImport" class="pivot-empty-formats">
           Formati supportati: <code>.xlsx</code>, <code>.xls</code>, <code>.csv</code>
         </div>
       </div>
@@ -206,7 +210,19 @@ export default {
     },
     defaultTheme: {
       type: String,
-      default: 'dark' // 'dark' | 'light'
+      default: 'light' // 'dark' | 'light'
+    },
+    allowImport: {
+      type: Boolean,
+      default: false
+    },
+    allowThemeToggle: {
+      type: Boolean,
+      default: false
+    },
+    allowExport: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['change', 'export'],
@@ -318,6 +334,26 @@ export default {
 
     triggerPrint() {
       this.showPrintModal = false;
+      
+      const preparePrint = () => {
+        const container = this.$el;
+        document.body.classList.add('pv-body-printing');
+        let parent = container.parentElement;
+        while (parent && parent !== document.body) {
+          parent.classList.add('pv-ancestor-printing');
+          parent = parent.parentElement;
+        }
+      };
+
+      const cleanupPrint = () => {
+        document.body.classList.remove('pv-body-printing');
+        const elements = document.querySelectorAll('.pv-ancestor-printing');
+        elements.forEach(el => el.classList.remove('pv-ancestor-printing'));
+      };
+
+      window.addEventListener('beforeprint', preparePrint, { once: true });
+      window.addEventListener('afterprint', cleanupPrint, { once: true });
+
       this.$nextTick(() => {
         window.print();
       });

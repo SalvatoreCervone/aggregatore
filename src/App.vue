@@ -30,6 +30,9 @@
         title="Analisi Libera"
         height="calc(100vh - 160px)"
         default-theme="dark"
+        :allow-import="true"
+        :allow-theme-toggle="true"
+        :allow-export="true"
         :key="'clean-view'"
       />
 
@@ -40,6 +43,8 @@
         title="Demo Dati Vendite"
         height="calc(100vh - 160px)"
         default-theme="dark"
+        :allow-theme-toggle="true"
+        :allow-export="true"
         :key="'demo-view'"
       />
     </main>
