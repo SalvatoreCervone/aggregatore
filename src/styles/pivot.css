@@ -2,7 +2,7 @@
  * Pivot Table CSS - Premium Styling System
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap'); */
 
 :root {
   /* Dark Theme Variables (Default) */
@@ -13,21 +13,23 @@
   --pv-border-light: rgba(255, 255, 255, 0.05);
   --pv-text: #f8fafc;
   --pv-text-muted: #94a3b8;
-  
+
   --pv-accent: #6366f1;
   --pv-accent-hover: #4f46e5;
   --pv-accent-glow: rgba(99, 102, 241, 0.15);
-  
+
   --pv-success: #10b981;
   --pv-danger: #ef4444;
-  
+
   --pv-total-bg: rgba(51, 65, 85, 0.4);
   --pv-grand-total-bg: rgba(99, 102, 241, 0.08);
   --pv-header-bg: #1e293b;
-  
-  --pv-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
-  --pv-font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --pv-font-mono: 'JetBrains Mono', monospace;
+
+  --pv-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  --pv-font-sans:
+    "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --pv-font-mono: "JetBrains Mono", monospace;
 }
 
 /* Light Theme Variables */
@@ -39,19 +41,20 @@
   --pv-border-light: rgba(0, 0, 0, 0.03);
   --pv-text: #0f172a;
   --pv-text-muted: #64748b;
-  
+
   --pv-accent: #4f46e5;
   --pv-accent-hover: #4338ca;
   --pv-accent-glow: rgba(79, 70, 229, 0.08);
-  
+
   --pv-success: #059669;
   --pv-danger: #dc2626;
-  
+
   --pv-total-bg: rgba(241, 245, 249, 0.9);
   --pv-grand-total-bg: rgba(79, 70, 229, 0.05);
   --pv-header-bg: #f8fafc;
-  
-  --pv-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+
+  --pv-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
 }
 
 .pivot-container {
@@ -67,8 +70,11 @@
   gap: 20px;
   box-sizing: border-box;
   width: 100%;
-  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
-  
+  transition:
+    background-color 0.3s,
+    border-color 0.3s,
+    color 0.3s;
+
   /* Resizing capability */
   resize: both;
   overflow: hidden;
@@ -138,7 +144,7 @@
   gap: 20px;
   height: 100%;
   overflow-y: auto;
-  
+
   /* Resizing and sizing configurations */
   resize: horizontal;
   overflow-x: hidden;
@@ -370,7 +376,7 @@
 }
 
 /* Sticky Headers rules */
-.pivot-table th, 
+.pivot-table th,
 .pivot-table td {
   padding: 10px 14px;
   border-right: 1px solid var(--pv-border);
@@ -416,11 +422,13 @@
   opacity: 0.8;
 }
 
-body.resizing-col, body.resizing-col * {
+body.resizing-col,
+body.resizing-col * {
   cursor: col-resize !important;
   user-select: none !important;
 }
-body.resizing-row, body.resizing-row * {
+body.resizing-row,
+body.resizing-row * {
   cursor: row-resize !important;
   user-select: none !important;
 }
@@ -464,10 +472,18 @@ body.resizing-row, body.resizing-row * {
 }
 
 /* Sub-row headers levels padding */
-.pivot-table td.row-header-level-0 { padding-left: 14px; }
-.pivot-table td.row-header-level-1 { padding-left: 28px; }
-.pivot-table td.row-header-level-2 { padding-left: 42px; }
-.pivot-table td.row-header-level-3 { padding-left: 56px; }
+.pivot-table td.row-header-level-0 {
+  padding-left: 14px;
+}
+.pivot-table td.row-header-level-1 {
+  padding-left: 28px;
+}
+.pivot-table td.row-header-level-2 {
+  padding-left: 42px;
+}
+.pivot-table td.row-header-level-3 {
+  padding-left: 56px;
+}
 
 /* Totals cells formatting */
 .pivot-table td.cell-total,
@@ -789,10 +805,13 @@ body.resizing-row, body.resizing-row * {
     margin-bottom: 15mm;
     margin-left: 10mm;
     margin-right: 10mm;
-    
+
     @bottom-right {
       content: "Pagina " counter(page) " di " counter(pages);
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family:
+        system-ui,
+        -apple-system,
+        sans-serif;
       font-size: 8px;
       color: #64748b;
     }
@@ -802,7 +821,9 @@ body.resizing-row, body.resizing-row * {
   body.pv-body-printing > *:not(.pv-ancestor-printing):not(.pivot-container) {
     display: none !important;
   }
-  body.pv-body-printing .pv-ancestor-printing > *:not(.pv-ancestor-printing):not(.pivot-container) {
+  body.pv-body-printing
+    .pv-ancestor-printing
+    > *:not(.pv-ancestor-printing):not(.pivot-container) {
     display: none !important;
   }
   body.pv-body-printing .pv-ancestor-printing {
@@ -838,7 +859,8 @@ body.resizing-row, body.resizing-row * {
   }
 
   /* Reset container styles for printing */
-  body, html {
+  body,
+  html {
     background-color: #ffffff !important;
     background: #ffffff !important;
     color: #000000 !important;
@@ -900,7 +922,10 @@ body.resizing-row, body.resizing-row * {
     padding-bottom: 12px;
     border-bottom: 2px solid #334155;
     color: #0f172a;
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family:
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 
   .print-title {
