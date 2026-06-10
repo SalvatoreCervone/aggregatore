@@ -24,10 +24,22 @@ Permette agli utenti di esplorare, aggregare e analizzare dataset complessi dire
 
 ## 📦 Installazione
 
-Puoi includere la libreria all'interno dei tuoi progetti Vue 3.
+Puoi installare la libreria all'interno dei tuoi progetti Vue 3 tramite npm:
 
-### 1. Collegamento Locale (per sviluppo)
-Se desideri includere la libreria localmente nel tuo progetto senza pubblicarla su npm, aggiungila alle dipendenze del tuo `package.json` (es. in `reports-web`):
+```bash
+npm install vue-aggregatore
+```
+
+Se utilizzi yarn o pnpm:
+
+```bash
+yarn add vue-aggregatore
+# oppure
+pnpm add vue-aggregatore
+```
+
+### Collegamento Locale (per sviluppo)
+Se desideri includere la libreria localmente nel tuo progetto durante lo sviluppo senza passare da npm, aggiungila alle dipendenze del tuo `package.json`:
 
 ```json
 {
@@ -36,7 +48,7 @@ Se desideri includere la libreria localmente nel tuo progetto senza pubblicarla 
   }
 }
 ```
-*Sostituisci il percorso `file:...` con il percorso relativo corretto della cartella della libreria aggregatore.*
+*Sostituisci il percorso `file:...` con il percorso relativo corretto della cartella della libreria.*
 
 Esegui poi:
 ```bash
