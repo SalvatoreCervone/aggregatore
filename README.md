@@ -11,6 +11,7 @@ Permette agli utenti di esplorare, aggregare e analizzare dataset complessi dire
 * 📊 **Motore di Aggregazione Indipendente**: Raggruppamento multidimensionale su righe e colonne con calcolo di subtotali e totali generali.
 * 🔢 **Operazioni Matematiche**: Supporto per **Somma (Sum)**, **Media (Average)**, **Conteggio (Count)**, **Minimo (Min)**, **Massimo (Max)** e **Prodotto (Product)**.
 * 🎛️ **Configuratore Campi (Builder)**: Interfaccia Drag & Drop nativa (HTML5) per disporre al volo i campi in Righe, Colonne e Valori (con selettori di aggregazione). Menù contestuali a click per dispositivi touch.
+* 📅 **Raggruppamento Intelligente delle Date**: Rilevamento automatico dei campi di tipo data (in formato ISO, `YYYY-MM-DD` o `DD-MM-YYYY`) con possibilità di raggrupparli al volo per *Anno*, *Mese*, *Anno-Mese* o *Anno-Trimestre* direttamente dal configuratore.
 * 🌲 **Griglia Gerarchica**: Visualizzazione ad albero comprimibile/espandibile per esplorare i dati con intestazioni fisse (**sticky headers**).
 * 🔍 **Filtro di Ricerca**: Ricerca testuale istantanea per filtrare le righe.
 * 🔎 **Drill-Down Dati**: Doppio clic su qualsiasi cella numerica per aprire una modale contenente l'elenco dei singoli record di origine associati a quella cella.
