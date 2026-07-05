@@ -77,7 +77,7 @@ function aggregateSortValues(vals, aggregator) {
  * @param {Array<string>} fields 
  * @returns {Array<Array<any>>}
  */
-export function getUniquePaths(data, fields, sorts = [], valuesConfig = []) {
+export function getUniquePaths(data, fields, sorts = [], valuesConfig = [], groupings = {}) {
   if (!fields || fields.length === 0) {
     return [[]]; // Only the grand total path
   }
@@ -103,7 +103,10 @@ export function getUniquePaths(data, fields, sorts = [], valuesConfig = []) {
   for (const item of data) {
     const path = [];
     for (const field of fields) {
-      const val = item[field] !== undefined && item[field] !== null ? String(item[field]) : '(vuoto)';
+      let val = item[field] !== undefined && item[field] !== null ? String(item[field]) : '(vuoto)';
+      if (groupings && groupings[field]) {
+        val = formatGroupedDate(item[field], groupings[field]);
+      }
       path.push(val);
       pathsSet.add(path.slice().join(KEY_SEPARATOR));
     }
@@ -140,7 +143,10 @@ export function getUniquePaths(data, fields, sorts = [], valuesConfig = []) {
       for (const item of data) {
         const path = [];
         for (let j = 0; j <= i; j++) {
-          const val = item[fields[j]] !== undefined && item[fields[j]] !== null ? String(item[fields[j]]) : '(vuoto)';
+          let val = item[fields[j]] !== undefined && item[fields[j]] !== null ? String(item[fields[j]]) : '(vuoto)';
+          if (groupings && groupings[fields[j]]) {
+            val = formatGroupedDate(item[fields[j]], groupings[fields[j]]);
+          }
           path.push(val);
         }
         const prefixKey = path.join(KEY_SEPARATOR);
@@ -280,7 +286,7 @@ export function aggregateValues(values, aggregator) {
  * @param {Array<Object>} valuesConfig - Array of { field, aggregator, label }
  * @returns {Object} Pivot grid model
  */
-export function computePivot(data, rows = [], columns = [], valuesConfig = [], sorts = {}) {
+export function computePivot(data, rows = [], columns = [], valuesConfig = [], sorts = {}, groupings = {}) {
   if (!data || data.length === 0) {
     return {
       rowPaths: [[]],
@@ -299,8 +305,8 @@ export function computePivot(data, rows = [], columns = [], valuesConfig = [], s
     : [{ field: null, aggregator: 'count', label: 'Conteggio' }];
 
   // 1. Get all unique row paths and column paths
-  const rowPaths = getUniquePaths(data, rows, sorts && sorts.rows ? sorts.rows : sorts, finalValuesConfig);
-  const colPaths = getUniquePaths(data, columns, sorts && sorts.columns ? sorts.columns : sorts, finalValuesConfig);
+  const rowPaths = getUniquePaths(data, rows, sorts && sorts.rows ? sorts.rows : sorts, finalValuesConfig, groupings);
+  const colPaths = getUniquePaths(data, columns, sorts && sorts.columns ? sorts.columns : sorts, finalValuesConfig, groupings);
 
   // 2. Initialize cells matrix
   // Cells will map rowKey -> colKey -> array of values for each config index
@@ -328,7 +334,10 @@ export function computePivot(data, rows = [], columns = [], valuesConfig = [], s
     const matchingRowPaths = [[]];
     let currentPath = [];
     for (const field of rows) {
-      const val = record[field] !== undefined && record[field] !== null ? String(record[field]) : '(vuoto)';
+      let val = record[field] !== undefined && record[field] !== null ? String(record[field]) : '(vuoto)';
+      if (groupings && groupings[field]) {
+        val = formatGroupedDate(record[field], groupings[field]);
+      }
       currentPath.push(val);
       matchingRowPaths.push([...currentPath]);
     }
@@ -337,7 +346,10 @@ export function computePivot(data, rows = [], columns = [], valuesConfig = [], s
     const matchingColPaths = [[]];
     currentPath = [];
     for (const field of columns) {
-      const val = record[field] !== undefined && record[field] !== null ? String(record[field]) : '(vuoto)';
+      let val = record[field] !== undefined && record[field] !== null ? String(record[field]) : '(vuoto)';
+      if (groupings && groupings[field]) {
+        val = formatGroupedDate(record[field], groupings[field]);
+      }
       currentPath.push(val);
       matchingColPaths.push([...currentPath]);
     }
@@ -594,4 +606,92 @@ export function parseReportConfig(report) {
     values,
     sorts
   };
+}
+
+/**
+ * Tries to parse a value into a Date object.
+ * Returns null if not a valid date or not a date-like pattern.
+ */
+export function parseDate(val) {
+  if (val instanceof Date) {
+    return isNaN(val.getTime()) ? null : val;
+  }
+  if (typeof val === 'string' && val.trim()) {
+    const trimmed = val.trim();
+    // Common date-like regexes to avoid parsing zip codes / simple numbers as dates
+    const dateRegexes = [
+      /^\d{4}[-/]\d{1,2}[-/]\d{1,2}/, // YYYY-MM-DD, YYYY/MM/DD
+      /^\d{1,2}[-/]\d{1,2}[-/]\d{4}/, // DD-MM-YYYY, DD/MM/YYYY
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/, // ISO
+    ];
+    if (dateRegexes.some(rx => rx.test(trimmed))) {
+      const parsed = Date.parse(trimmed);
+      if (!isNaN(parsed)) {
+        return new Date(parsed);
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * Detects which fields in the dataset consistently contain date values.
+ */
+export function detectDateFields(data, sampleSize = 50) {
+  if (!data || data.length === 0) return [];
+  const fields = Object.keys(data[0]);
+  const dateFields = [];
+
+  for (const field of fields) {
+    let dateCount = 0;
+    let validCount = 0;
+    const sample = data.slice(0, sampleSize);
+
+    for (const row of sample) {
+      const val = row[field];
+      if (val !== undefined && val !== null && val !== '') {
+        validCount++;
+        if (parseDate(val) !== null) {
+          dateCount++;
+        }
+      }
+    }
+
+    if (validCount > 0 && dateCount / validCount >= 0.8) {
+      dateFields.push(field);
+    }
+  }
+  return dateFields;
+}
+
+/**
+ * Formats a date value based on the chosen grouping type.
+ */
+export function formatGroupedDate(val, type) {
+  const date = parseDate(val);
+  if (!date) return val !== undefined && val !== null ? String(val) : '(vuoto)';
+
+  const monthNames = [
+    'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
+    'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
+  ];
+
+  const year = date.getFullYear();
+  const monthNum = date.getMonth() + 1;
+  const monthCode = String(monthNum).padStart(2, '0');
+  const monthName = monthNames[date.getMonth()];
+  const quarter = 'Q' + Math.floor((date.getMonth() / 3) + 1);
+
+  switch (type) {
+    case 'year':
+      return String(year);
+    case 'month':
+      return `${monthCode} - ${monthName}`;
+    case 'year-month':
+      return `${year}-${monthCode}`;
+    case 'year-quarter':
+      return `${year}-${quarter}`;
+    default:
+      return val !== undefined && val !== null ? String(val) : '(vuoto)';
+  }
 }

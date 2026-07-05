@@ -92,6 +92,8 @@
         v-model:columns="columns"
         v-model:values="values"
         v-model:sorts="sorts"
+        v-model:groupings="groupings"
+        :detected-date-fields="detectedDateFields"
         :data="internalData"
       />
 
@@ -174,7 +176,7 @@
 <script>
 import PivotBuilder from './PivotBuilder.vue';
 import PivotGrid from './PivotGrid.vue';
-import { computePivot, parseReportConfig } from '../utils/pivotEngine';
+import { computePivot, parseReportConfig, detectDateFields, parseDate } from '../utils/pivotEngine';
 import * as XLSX from 'xlsx';
 
 export default {
@@ -249,18 +251,21 @@ export default {
       sorts: {
         rows: [],
         columns: []
-      }
+      },
+      detectedDateFields: [],
+      groupings: {}
     };
   },
   computed: {
     pivotData() {
-      const data = computePivot(this.internalData, this.rows, this.columns, this.values, this.sorts);
+      const data = computePivot(this.internalData, this.rows, this.columns, this.values, this.sorts, this.groupings);
       // Emit config changes to parent application
       this.$emit('change', {
         rows: this.rows,
         columns: this.columns,
         values: this.values,
-        sorts: this.sorts
+        sorts: this.sorts,
+        groupings: this.groupings
       });
       return data;
     },
@@ -304,10 +309,17 @@ export default {
         }
       },
       deep: true
+    },
+    internalData: {
+      handler() {
+        this.detectFields();
+      },
+      deep: true
     }
   },
   created() {
     this.loadReportConfig();
+    this.detectFields();
   },
   mounted() {
     // Close export dropdown if clicked outside
@@ -339,6 +351,7 @@ export default {
           this.columns = parsed.columns || [];
           this.values = parsed.values || [];
           this.sorts = parsed.sorts || {};
+          this.groupings = this.report.groupings || this.report.slice?.groupings || {};
           return;
         }
       }
@@ -354,6 +367,7 @@ export default {
       this.columns = parsedConfig.columns;
       this.values = parsedConfig.values;
       this.sorts = parsedConfig.sorts;
+      this.groupings = this.initialConfig?.groupings || {};
     },
     toggleTheme() {
       this.theme = this.theme === 'dark' ? 'light' : 'dark';
@@ -417,7 +431,7 @@ export default {
       reader.onload = (evt) => {
         try {
           const data = evt.target.result;
-          const workbook = XLSX.read(data, { type: 'binary' });
+          const workbook = XLSX.read(data, { type: 'binary', cellDates: true });
           const firstSheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[firstSheetName];
           const jsonData = XLSX.utils.sheet_to_json(worksheet);
@@ -726,6 +740,13 @@ export default {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    },
+    detectFields() {
+      if (!this.internalData || this.internalData.length === 0) {
+        this.detectedDateFields = [];
+        return;
+      }
+      this.detectedDateFields = detectDateFields(this.internalData);
     }
   }
 };

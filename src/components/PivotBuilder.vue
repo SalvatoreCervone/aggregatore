@@ -53,6 +53,20 @@
           >
             <span>☰</span>
             <span>{{ field }}</span>
+            <select 
+              v-if="detectedDateFields && detectedDateFields.includes(field)"
+              :value="groupings[field] || ''"
+              @change="setFieldGrouping(field, $event.target.value)"
+              @click.stop
+              title="Raggruppamento data"
+              class="pivot-date-select"
+            >
+              <option value="">Data intera</option>
+              <option value="year">Anno</option>
+              <option value="month">Mese</option>
+              <option value="year-month">Anno-Mese</option>
+              <option value="year-quarter">Anno-Trimestre</option>
+            </select>
             <span v-if="getFieldSortLabel(field)" class="pivot-title-tag" style="font-size: 0.65rem; margin-left: 4px; background-color: var(--pv-accent); color: white;">
               {{ getFieldSortLabel(field) }}
             </span>
@@ -83,6 +97,20 @@
           >
             <span>☰</span>
             <span>{{ field }}</span>
+            <select 
+              v-if="detectedDateFields && detectedDateFields.includes(field)"
+              :value="groupings[field] || ''"
+              @change="setFieldGrouping(field, $event.target.value)"
+              @click.stop
+              title="Raggruppamento data"
+              class="pivot-date-select"
+            >
+              <option value="">Data intera</option>
+              <option value="year">Anno</option>
+              <option value="month">Mese</option>
+              <option value="year-month">Anno-Mese</option>
+              <option value="year-quarter">Anno-Trimestre</option>
+            </select>
             <span v-if="getFieldSortLabel(field)" class="pivot-title-tag" style="font-size: 0.65rem; margin-left: 4px; background-color: var(--pv-accent); color: white;">
               {{ getFieldSortLabel(field) }}
             </span>
@@ -398,9 +426,17 @@ export default {
     sorts: {
       type: Object,
       default: () => ({ rows: [], columns: [] })
+    },
+    groupings: {
+      type: Object,
+      default: () => ({})
+    },
+    detectedDateFields: {
+      type: Array,
+      default: () => []
     }
   },
-  emits: ['update:rows', 'update:columns', 'update:values', 'update:sorts'],
+  emits: ['update:rows', 'update:columns', 'update:values', 'update:sorts', 'update:groupings'],
   data() {
     return {
       dragOverZone: null,
@@ -741,6 +777,16 @@ export default {
         return `${arrow} ${sort.sortBy}`;
       }
       return isDesc ? '▼ Z-A' : '▲ A-Z';
+    },
+
+    setFieldGrouping(field, value) {
+      const newGroupings = { ...this.groupings };
+      if (value) {
+        newGroupings[field] = value;
+      } else {
+        delete newGroupings[field];
+      }
+      this.$emit('update:groupings', newGroupings);
     }
   }
 };

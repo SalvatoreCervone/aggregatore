@@ -11,6 +11,10 @@
   --pv-text: #f8fafc;
   --pv-text-muted: #94a3b8;
 
+  /* Helper variables for custom inline styling compatibility */
+  --pv-bg: #0f172a;
+  --pv-text-primary: #f8fafc;
+
   --pv-accent: #6366f1;
   --pv-accent-hover: #4f46e5;
   --pv-accent-glow: rgba(99, 102, 241, 0.15);
@@ -38,6 +42,10 @@
   --pv-border-light: rgba(0, 0, 0, 0.03);
   --pv-text: #0f172a;
   --pv-text-muted: #64748b;
+
+  /* Helper variables for custom inline styling compatibility */
+  --pv-bg: #f8fafc;
+  --pv-text-primary: #0f172a;
 
   --pv-accent: #4f46e5;
   --pv-accent-hover: #4338ca;
@@ -290,6 +298,35 @@
 
 .value-chip select:focus {
   border-color: var(--pv-accent);
+}
+
+/* Dropdown select option contrast fixes */
+select option {
+  background-color: var(--pv-bg-card) !important;
+  color: var(--pv-text) !important;
+}
+
+.pivot-date-select {
+  margin-left: 6px;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid var(--pv-border);
+  background-color: var(--pv-bg-main);
+  color: var(--pv-text);
+  cursor: pointer;
+  outline: none;
+  font-family: var(--pv-font-sans);
+  transition: border-color 0.2s ease;
+}
+
+.pivot-date-select:focus {
+  border-color: var(--pv-accent);
+}
+
+.pivot-date-select option {
+  background-color: var(--pv-bg-card) !important;
+  color: var(--pv-text) !important;
 }
 
 /* Grid Panel */
