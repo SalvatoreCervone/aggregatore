@@ -1,6 +1,6 @@
 {
   "name": "vue-aggregatore",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "main": "./dist/vue-pivot-table.umd.js",
   "module": "./dist/vue-pivot-table.es.js",
