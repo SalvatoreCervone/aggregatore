@@ -52,3 +52,4 @@ coverage/
 # Cartelle temporanee
 .temp/
 .tmp/
+.npmrc
