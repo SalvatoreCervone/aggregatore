@@ -4,7 +4,7 @@
     <div class="pivot-toolbar">
       <div class="pivot-title">
         <span>{{ title }}</span>
-        <span class="pivot-title-tag">Vue Aggregatore</span>
+        <span class="pivot-title-tag">Aggregatore</span>
       </div>
 
       <div class="pivot-actions">

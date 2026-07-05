@@ -1,4 +1,4 @@
-# Vue Aggregatore (Vue Pivot Table)
+# Aggregatore (Vue Pivot Table)
 
 Un componente per **Vue 3** potente, interattivo e ad alte prestazioni per la creazione di **tabelle pivot (Pivot Tables) e aggregazioni multidimensionali**.
 
